@@ -1,13 +1,14 @@
-
 <?php
 
 // Define the Item class with its properties
-class Item {
+class Item
+{
     public $name;
     public $description;
     public $price;
 
-    public function __construct($name, $description, $price) {
+    public function __construct($name, $description, $price)
+    {
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;
@@ -56,22 +57,22 @@ if (isset($_POST["submit"])) {
 
 <!-- Create the form to allow items to be chosen -->
 
-<form action="<?php echo $_SERVER[ 'PHP_SELF']; ?>" method="post">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <h2>Food Truck Menu</h2>
     <!-- Loop through the menu items -->
     <?php foreach ($menu as $item) { ?>
-    <h3>
-        <?php echo $item->name; ?>
-    </h3>
-    <p>
-        <?php echo $item->description; ?>
-    </p>
-    <p>Price: $
-        <?php echo $item->price; ?>
-    </p>
-    <label for="<?php echo $item->name; ?>">Quantity:</label>
-    <input type="number" name="<?php echo $item->name; ?>" value="0" min="0">
-    <br><br>
+        <h3>
+            <?php echo $item->name; ?>
+        </h3>
+        <p>
+            <?php echo $item->description; ?>
+        </p>
+        <p>Price: $
+            <?php echo $item->price; ?>
+        </p>
+        <label for="<?php echo $item->name; ?>">Quantity:</label>
+        <input type="number" name="<?php echo $item->name; ?>" value="0" min="0">
+        <br><br>
     <?php } ?>
 
     <!-- Add the extras section -->
