@@ -15,13 +15,16 @@ class Item
     }
 }
 
-// Create instances of the Item class to represent food truck items
-$burger = new Item("Burger", "100% beef patty with lettuce, tomato, and cheese", 5.99);
-$fries = new Item("Fries", "Golden brown and crispy, served with ketchup", 2.99);
-$drink = new Item("Drink", "Refreshing soda, choose from Coke, Sprite, or Fanta", 1.99);
+// Create instances of the Item class to represent food truck items and store in an array. 
+$menu = [];
+$menu[] = new Item("Burger", "100% beef patty with lettuce, tomato, and cheese", 5.99);
+$menu[] = new Item("Fries", "Golden brown and crispy, served with ketchup", 2.99);
+$menu[] = new Item("Drink", "Refreshing soda, choose from Coke, Sprite, or Fanta", 1.99);
 
-// Store the food truck items in an array
-$menu = [$burger, $fries, $drink];
+echo '<pre>';
+echo var_dump($menu);
+echo '</pre>';
+
 
 // Check if the form has been submitted
 if (isset($_POST["submit"])) {
@@ -34,6 +37,9 @@ if (isset($_POST["submit"])) {
         if (isset($_POST[$item->name])) {
             // Add the item price to the total
             $total += $item->price * $_POST[$item->name];
+        }
+        if (isset($_POST['cheese'])) {
+            $total += $_POST['cheese'];
         }
     }
 
@@ -49,38 +55,63 @@ if (isset($_POST["submit"])) {
         echo "<p><strong>Total: $" . $total . "</strong></p>";
     } else {
         // Display an error message if no items were selected
-        echo "<p>Please select at least one item.</p>";
+        echo "<p class='alert'><b>Please select at least one item.</b></p>";
     }
 }
 
 ?>
 
-<!-- Create the form to allow items to be chosen -->
+<!DOCTYPE html>
+<html lang="en">
 
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-    <h2>Food Truck Menu</h2>
-    <!-- Loop through the menu items -->
-    <?php foreach ($menu as $item) { ?>
-        <h3>
-            <?php echo $item->name; ?>
-        </h3>
-        <p>
-            <?php echo $item->description; ?>
-        </p>
-        <p>Price: $
-            <?php echo $item->price; ?>
-        </p>
-        <label for="<?php echo $item->name; ?>">Quantity:</label>
-        <input type="number" name="<?php echo $item->name; ?>" value="0" min="0">
-        <br><br>
-    <?php } ?>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>Order Food</title>
+</head>
 
-    <!-- Add the extras section -->
-    <h3>Extras</h3>
-    <p>Cheese: $0.25</p>
-    <label for="cheese">Add Cheese:</label>
-    <input type="checkbox" name="cheese">
-    <br><br>
+<body>
+    <main>
+        <header>
+            <h1>Food Truck Menu</h1>
+        </header>
 
-    <input type="submit" name="submit" value="Place Order">
-</form>
+
+        <!-- Create the form to allow items to be chosen -->
+
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+
+            <!-- Loop through the menu items -->
+            <?php foreach ($menu as $item) { ?>
+                <h2>
+                    <?php echo $item->name; ?>
+                </h2>
+                <p>
+                    <?php echo $item->description; ?>
+                </p>
+                <p>Price: $
+                    <?php echo $item->price; ?>
+                </p>
+                <label for="<?php echo $item->name; ?>">Quantity:</label>
+                <input type="number" name="<?php echo $item->name; ?>" value="0" min="0">
+                <br><br>
+            <?php } ?>
+
+            <!-- Add the extras section -->
+            <h2>Extras</h2>
+            <p>Cheese: $0.25</p>
+
+            <label for="cheese">Add Cheese:</label>
+            <input type="checkbox" name="cheese" value="0.25">
+            <br><br>
+
+            <input type="submit" name="submit" value="Place Order">
+        </form>
+
+        <php? ;?>
+    </main>
+</body>
+
+</html>
