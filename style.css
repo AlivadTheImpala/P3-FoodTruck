@@ -30,7 +30,7 @@ form > p {
 form {
     border: 1px solid black;
     max-width: 50%;
-    padding: 20px;
+    padding: 21px;
 }
 
 input[type="number"] {
