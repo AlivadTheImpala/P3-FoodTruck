@@ -105,7 +105,7 @@ if (isset($_POST["submit"])) {
 
                 <?php } ?>
 
-                <!-- Adds the extras section -->
+                <!-- Add the extras section -->
                 <h3>Extras</h3>
                 <p>Cheese: $0.25</p>
 
