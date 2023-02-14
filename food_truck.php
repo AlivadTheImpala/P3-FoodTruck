@@ -22,9 +22,10 @@ $menu[] = new Item("Fries", "Golden brown and crispy, served with ketchup", 2.99
 $menu[] = new Item("Drink", "Refreshing soda, choose from Coke, Sprite, or Fanta", 1.99);
 
 echo '<pre>';
-echo var_dump($menu);
+echo var_dump($menu[0]);
 echo '</pre>';
 
+// echo gettype((int)$_POST['quantity']);
 
 // Check if the form has been submitted
 if (isset($_POST["submit"])) {
@@ -34,9 +35,9 @@ if (isset($_POST["submit"])) {
     // Loop through the menu items
     foreach ($menu as $item) {
         // Check if the item was selected
-        if (isset($_POST[$item->name])) {
+        if (isset($_POST['quantity'])) {
             // Add the item price to the total
-            $total += $item->price * $_POST[$item->name];
+            $total += $item->price * (int)$_POST['quantity'];
         }
         if (isset($_POST['cheese'])) {
             $total += $_POST['cheese'];
@@ -48,8 +49,8 @@ if (isset($_POST["submit"])) {
         // Display the items and the total cost
         echo "<h2>Your Order:</h2>";
         foreach ($menu as $item) {
-            if (isset($_POST[$item->name])) {
-                echo "<p>" . $item->name . " x " . $_POST[$item->name] . ": $" . $item->price * $_POST[$item->name] . "</p>";
+            if (isset($_POST['quantity'])) {
+                echo "<p>" . $item->name . " x " . $_POST['quantity'] . ": $" . $item->price * $_POST['quantity'] . "</p>";
             }
         }
         echo "<p><strong>Total: $" . $total . "</strong></p>";
@@ -82,32 +83,46 @@ if (isset($_POST["submit"])) {
         <!-- Create the form to allow items to be chosen -->
 
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <fieldset>
 
-            <!-- Loop through the menu items -->
-            <?php foreach ($menu as $item) { ?>
-                <h2>
-                    <?php echo $item->name; ?>
+
+                <!-- Loop through the menu items -->
+                <?php foreach ($menu as $item) { ?>
+
+                    <label> <?php echo $item->name; ?></label>
+
+                    <p><?php echo $item->price; ?></p>
+
+                    <p><?php echo $item->description; ?></p>
+
+                    <input type="number" name="quantity">
+
+                    <!-- <h2>
+                    ////<?php echo $item->name; ?>
                 </h2>
                 <p>
-                    <?php echo $item->description; ?>
+                    ////<?php echo $item->description; ?>
                 </p>
                 <p>Price: $
-                    <?php echo $item->price; ?>
+                    ////<?php echo $item->price; ?>
                 </p>
-                <label for="<?php echo $item->name; ?>">Quantity:</label>
-                <input type="number" name="<?php echo $item->name; ?>" value="0" min="0">
+                <label for="////<?php echo $item->name; ?>">Quantity:</label>
+                <input type="number" name="////<?php echo $item->name; ?>" value="0" min="0">
+                <br><br> -->
+
+
+                <?php } ?>
+
+                <!-- Add the extras section -->
+                <h3>Extras</h3>
+                <p>Cheese: $0.25</p>
+
+                <label>Add Cheese:</label>
+                <input type="checkbox" name="cheese" value="0.25">
                 <br><br>
-            <?php } ?>
 
-            <!-- Add the extras section -->
-            <h2>Extras</h2>
-            <p>Cheese: $0.25</p>
-
-            <label for="cheese">Add Cheese:</label>
-            <input type="checkbox" name="cheese" value="0.25">
-            <br><br>
-
-            <input type="submit" name="submit" value="Place Order">
+                <input type="submit" name="submit" value="Place Order">
+            </fieldset>
         </form>
 
         <php? ;?>
