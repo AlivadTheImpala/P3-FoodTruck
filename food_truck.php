@@ -32,13 +32,14 @@ if (isset($_POST["submit"])) {
     // Initialize the total cost
     $total = 0;
 
-    // Loop through the menu items
+    // get the total of each item and add it to the total bill
     foreach ($menu as $item) {
         // Check if the item was selected
         if (isset($_POST['quantity'])) {
-            // Add the item price to the total
-            $total += $item->price * (int)$_POST['quantity'];
+
+            $total += $item->price * (float)$_POST['quantity'][$item->name];
         }
+
         if (isset($_POST['cheese'])) {
             $total += $_POST['cheese'];
         }
@@ -46,14 +47,19 @@ if (isset($_POST["submit"])) {
 
     // Check if the total is greater than 0
     if ($total > 0) {
-        // Display the items and the total cost
+        //calculate the cost of each item by the quantity and display each of them.
         echo "<h2>Your Order:</h2>";
         foreach ($menu as $item) {
             if (isset($_POST['quantity'])) {
-                echo "<p>" . $item->name . " x " . $_POST['quantity'] . ": $" . $item->price * $_POST['quantity'] . "</p>";
+                $individual_totals = $item->price * (float)$_POST['quantity'][$item->name];
+                // echo gettype($individual_totals);
+                echo '<p> ' . $item->name . ' x ' . $_POST['quantity'][$item->name] . ': ' . number_format($individual_totals, 2) . '
+                
+                ';
             }
         }
-        echo "<p><strong>Total: $" . $total . "</strong></p>";
+
+        echo "<p><strong>Total: $" . number_format($total, 2) . "</strong></p>";
     } else {
         // Display an error message if no items were selected
         echo "<p class='alert'><b>Please select at least one item.</b></p>";
@@ -89,27 +95,13 @@ if (isset($_POST["submit"])) {
                 <!-- Loop through the menu items -->
                 <?php foreach ($menu as $item) { ?>
 
-                    <label> <?php echo $item->name; ?></label>
+                    <label class="item-name"> <?php echo $item->name; ?></label>
 
                     <p><?php echo $item->price; ?></p>
 
                     <p><?php echo $item->description; ?></p>
 
-                    <input type="number" name="quantity">
-
-                    <!-- <h2>
-                    ////<?php echo $item->name; ?>
-                </h2>
-                <p>
-                    ////<?php echo $item->description; ?>
-                </p>
-                <p>Price: $
-                    ////<?php echo $item->price; ?>
-                </p>
-                <label for="////<?php echo $item->name; ?>">Quantity:</label>
-                <input type="number" name="////<?php echo $item->name; ?>" value="0" min="0">
-                <br><br> -->
-
+                    <input type="number" name="quantity[<?php echo $item->name; ?>]">
 
                 <?php } ?>
 
@@ -125,7 +117,7 @@ if (isset($_POST["submit"])) {
             </fieldset>
         </form>
 
-        <php? ;?>
+
     </main>
 </body>
 
